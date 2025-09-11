@@ -25,27 +25,36 @@ generate: macro_scripts_uint
 	echo "generated macros..."
 
 
-num.o: generate $(SRC)/types.h $(SRC)/num/*
+intrinsics.o: $(SRC)/intrinsics.h $(SRC)/intrinsics.c $(SRC)/intrinsics/*
+	$(CC) $(CFLAGS) -c $(SRC)/intrinsics.c
+
+num.o: generate intrinsics.o $(SRC)/types.h $(SRC)/num/*
 	$(CC) $(CFLAGS) -c $(SRC)/num/*.c
 
 alloc.o: generate $(SRC)/alloc.h $(SRC)/alloc/*.h
 	echo "empty"
 
-build: num.o alloc.o
+build: intrinsics.o num.o alloc.o
 	mkdir -p $(TARGET)
-	$(AR) rcs $(LIB_NAME).a *.o
+	$(AR) -rcs $(LIB_NAME).a *.o
 
-test: build
-	$(CC) $(CFLAGS) $(TEST_DIR)/*.c -L$(NAME) -o $(TARGET)/tests
-	$(TARGET)/tests
+b: build
+
+
+
+test: build $(TEST_DIR)/*.c
+	mkdir -p $(TARGET)/tests
+	for f in $(wildcard $(TEST_DIR)/*.c); do \
+		filename=$$(basename $$f); \
+		name=$${filename%.*}; \
+		$(CC) $(CFLAGS) $$f -L. -l$(NAME) -o $(TARGET)/tests/$$name; \
+		$(TARGET)/tests/$$name; \
+	done
+
 
 clean:
 	rm *.o *.a
-	rm $(TARGET)/*
-
-
-
-
+	rm -rf $(TARGET)/*
 
 
 
