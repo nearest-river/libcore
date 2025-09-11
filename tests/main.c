@@ -1,31 +1,22 @@
-
-#include "../src/alloc/layout.h"
+#include <stdint.h>
 #include <stdio.h>
-#include <assert.h>
+#include "../src/prelude.h"
 
-static usize usize_next_power_of_two(usize x) {
-  if(x==0) {
-    return 1;
-  }
 
-  x-= 1;
-  x|=x>>1;
-  x|=x>>2;
-  x|=x>>4;
-  x|=x>>8;
-  x|=x>>16;
-  x|=x>>32;
 
-  #ifdef DEBUG
-    assert(x!=USIZE_MAX); 
-  #endif
 
-  return x + 1;
-}
 
+
+
+
+/* _Static_assert(false,"invalid monomorphization of `ctlz` intrinsic: expected basic integer type"); \
+*/
 
 int main(int argc,const char** argv) {
-  printf("%lu\n", usize_next_power_of_two((1ul<<63)+1));
+  char c='a';
+
+  printf("%u\n",intrinsic_ctpop(c));
+
 
   return 0;
 }

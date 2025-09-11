@@ -1,9 +1,9 @@
-#ifndef LIBCORE_PRIMITIVES_F32_CONST_H
-#define LIBCORE_PRIMITIVES_F32_CONST_H
+#ifndef LIBCORE_PRIMITIVES_F32_H
+#define LIBCORE_PRIMITIVES_F32_H
 
 //Basic mathematical constants.
 // FIXME: replace with mathematical constants from cmath.
-#include "../../primitives.h"
+#include "../types.h"
 
 /// Archimedes' constant (π)
 #define F32_PI (f32)3.14159265358979323846264338327950288F
@@ -160,4 +160,4 @@
 /// Negative infinity (−∞).
 #define F32_NEG_INFINITY (f32)-1.0F / 0.0F
 
-#endif // LIBCORE_PRIMITIVES_F32_CONST_H
+#endif // LIBCORE_PRIMITIVES_F32_H

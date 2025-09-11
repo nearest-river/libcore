@@ -1,5 +1,5 @@
-#ifndef LIBCORE_PRIMITIVES_F64_CONST_H
-#define LIBCORE_PRIMITIVES_F64_CONST_H
+#ifndef LIBCORE_PRIMITIVES_F64_H
+#define LIBCORE_PRIMITIVES_F64_H
 
 //! Constants for the `f64` double-precision floating point type.
 //!
@@ -11,7 +11,7 @@
 //! (as distinct from those defined in the `consts` sub-module),
 //! new code should instead use the associated constants
 //! defined directly on the `f64` type.
-#include "../../primitives.h"
+#include "../types.h"
 
 
 
@@ -192,4 +192,4 @@
 
 
 
-#endif // !LIBCORE_PRIMITIVES_F64_CONST_H
+#endif // !LIBCORE_PRIMITIVES_F64_H

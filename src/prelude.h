@@ -3,8 +3,13 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include "primitives.h"
+#include "types.h"
+
 #include "ord.h"
+
+#include "num.h"
+
+
 
 
 
@@ -23,6 +28,7 @@ typedef bool (*PredicateFn)(const void*);
 
 #define panic(...) { fprintf(stderr,__VA_ARGS__);exit(1); }
 #define inline_always __inline __attribute__ ((__always_inline__))
+#define must_use __attribute__((warn_unused_result))
 
 
 #ifndef not_null

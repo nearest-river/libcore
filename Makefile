@@ -4,6 +4,7 @@ LIB_NAME=lib$(NAME)
 SRC=src
 TARGET=target
 TEST_DIR=tests
+MACRO_SCRIPTS=macro_scripts
 
 
 CC=gcc
@@ -16,13 +17,21 @@ CFLAGS=-Wall -g
 
 all: build
 
-primitives.o: ./src/primitives.h ./src/primitives/*/*
-	$(CC) $(CFLAGS) -c ./src/primitives/*/*.c
 
-alloc.o: ./src/alloc.h ./src/alloc/*.h
+macro_scripts_uint: $(MACRO_SCRIPTS)/*
+	echo "TODO"
+
+generate: macro_scripts_uint
+	echo "generated macros..."
+
+
+num.o: generate $(SRC)/types.h $(SRC)/num/*
+	$(CC) $(CFLAGS) -c $(SRC)/num/*.c
+
+alloc.o: generate $(SRC)/alloc.h $(SRC)/alloc/*.h
 	echo "empty"
 
-build: primitives.o alloc.o
+build: num.o alloc.o
 	mkdir -p $(TARGET)
 	$(AR) rcs $(LIB_NAME).a *.o
 
@@ -33,5 +42,18 @@ test: build
 clean:
 	rm *.o *.a
 	rm $(TARGET)/*
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
