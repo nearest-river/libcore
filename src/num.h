@@ -7,6 +7,7 @@
 
 #include "num/i64.h"
 #include "num/i128.h"
+#include "num/isize.h"
 
 #include "num/f32.h"
 #include "num/f64.h"

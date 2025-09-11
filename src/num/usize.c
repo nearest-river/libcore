@@ -1,6 +1,7 @@
 #include "../prelude.h"
 #include "../types.h"
 #include "usize.h"
+#include "../intrinsics.h"
 
 
 /*
@@ -54,13 +55,10 @@ impl usize {
 
 
 
-/*
-
-#if defined(__has_builtin)
 
 inline_always
 u32 usize_count_ones(const usize self) {
-  return __builtin_popcount(self);
+  return intrinsics_ctpop(self);
 }
 
 inline_always
@@ -68,11 +66,13 @@ u32 usize_count_zeros(const usize self) {
   return usize_count_ones(~self);
 }
 
+
 inline_always
 u32 usize_leading_zeros(const usize self) {
   return intrinsics_ctlz((u64)self);
 }
 
+/*
 u32 usize_trailing_zeros(const usize self) {
 return intrinsics_cttz(self);
 }

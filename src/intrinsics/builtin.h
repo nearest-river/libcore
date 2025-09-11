@@ -40,7 +40,7 @@
   short: (u32)__builtin_popcount(intrinsics_transmute(x,unsigned int)), \
   char: (u32)__builtin_popcount(intrinsics_transmute(x,unsigned int)), \
   u128: intrinsics_u128_popct(x), \
-  i128: intrinsics_i128_popct(x), \
+  i128: intrinsics_i128_popct(x) \
 )
 
 

@@ -9,6 +9,32 @@
 #define USIZE_BITS (u32)(USIZE_BYTES*8u)
 
 
+
+
+
+u32 usize_count_ones(const usize self);
+u32 usize_count_zeros(const usize self);
+u32 usize_leading_zeros(const usize self);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 usize usize_wrapping_add(usize self,usize rhs);
 usize usize_wrapping_sub(usize self,usize rhs);
 usize usize_wrapping_mul(usize self,usize rhs);
