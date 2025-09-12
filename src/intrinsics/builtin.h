@@ -13,20 +13,6 @@
 
 
 
-#define intrinsics_ctlz(x) _Generic((x), \
-  unsigned int: (u32)__builtin_clz((x)), \
-  unsigned long: (u32)__builtin_clzl((x)), \
-  unsigned long long: (u32)__builtin_clzll((x)), \
-  unsigned short: (u32)__builtin_clz((unsigned int)(x)<<(BITS(int)-BITS(short))), \
-  unsigned char: (u32)__builtin_clz((unsigned int)(x)<<(BITS(int)-BITS(char))), \
-  int: (u32)__builtin_clz(intrinsics_transmute(x,unsigned int)), \
-  long: (u32)__builtin_clzl(intrinsics_transmute(x,unsigned long)), \
-  long long: (u32)__builtin_clzll(intrinsics_transmute(x,unsigned long long)), \
-  short: (u32)__builtin_clz(intrinsics_transmute(x,unsigned int)<<(BITS(int)-BITS(short))), \
-  char: (u32)__builtin_clz(intrinsics_transmute(x,unsigned int)<<(BITS(int)-BITS(char))), \
-  u128: intrinsics_i128_ctlz(x), \
-  i128: intrinsics_i128_ctlz(x) \
-)
 
 #define intrinsics_ctpop(x) _Generic((x), \
   unsigned int: (u32)__builtin_popcount(x), \
@@ -37,11 +23,59 @@
   int: (u32)__builtin_popcount(intrinsics_transmute(x,unsigned int)), \
   long: (u32)__builtin_popcountl(intrinsics_transmute(x,unsigned long)), \
   long long: (u32)__builtin_popcountll(intrinsics_transmute(x,unsigned long long)), \
-  short: (u32)__builtin_popcount(intrinsics_transmute(x,unsigned int)), \
-  char: (u32)__builtin_popcount(intrinsics_transmute(x,unsigned int)), \
+  short: (u32)__builtin_popcount(intrinsics_transmute((int)(x),unsigned int)), \
+  char: (u32)__builtin_popcount(intrinsics_transmute((int)(x),unsigned int)), \
   u128: intrinsics_u128_popct(x), \
   i128: intrinsics_i128_popct(x) \
 )
+
+#define intrinsics_ctlz(x) _Generic((x), \
+  unsigned int: (u32)__builtin_clz((x)), \
+  unsigned long: (u32)__builtin_clzl((x)), \
+  unsigned long long: (u32)__builtin_clzll((x)), \
+  unsigned short: (u32)__builtin_clz((unsigned int)(x)<<(BITS(int)-BITS(short))), \
+  unsigned char: (u32)__builtin_clz((unsigned int)(x)<<(BITS(int)-BITS(char))), \
+  int: (u32)__builtin_clz(intrinsics_transmute(x,unsigned int)), \
+  long: (u32)__builtin_clzl(intrinsics_transmute(x,unsigned long)), \
+  long long: (u32)__builtin_clzll(intrinsics_transmute(x,unsigned long long)), \
+  short: (u32)__builtin_clz(intrinsics_transmute((int)(x),unsigned int)<<(BITS(int)-BITS(short))), \
+  char: (u32)__builtin_clz(intrinsics_transmute((int)(x),unsigned int)<<(BITS(int)-BITS(char))), \
+  u128: intrinsics_i128_ctlz(x), \
+  i128: intrinsics_i128_ctlz(x) \
+)
+
+
+
+#define intrinsics_cttz(x) _Generic((x), \
+  unsigned int: (u32)__builtin_ctz(x), \
+  unsigned long: (u32)__builtin_ctzl(x), \
+  unsigned long long: (u32)__builtin_ctzll(x), \
+  unsigned short: (u32)__builtin_ctz((unsigned int)(x)), \
+  unsigned char: (u32)__builtin_ctz((unsigned int)(x)), \
+  int: (u32)__builtin_ctz(intrinsics_transmute(x,unsigned int)), \
+  long: (u32)__builtin_ctzl(intrinsics_transmute(x,unsigned long)), \
+  long long: (u32)__builtin_ctzll(intrinsics_transmute(x,unsigned long long)), \
+  short: (u32)__builtin_ctz(intrinsics_transmute((int)(x),unsigned int)), \
+  char: (u32)__builtin_ctz(intrinsics_transmute((int)(x),unsigned int)), \
+  u128: intrinsics_u128_cttz(x), \
+  i128: intrinsics_i128_cttz(x) \
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
