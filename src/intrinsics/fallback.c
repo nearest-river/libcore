@@ -1,5 +1,7 @@
 #ifndef LIBCORE_INTRINSICS_FALLBACK_C
 #define LIBCORE_INTRINSICS_FALLBACK_C
 
+#error "unimplemented"
+
 
 #endif // LIBCORE_INTRINSICS_FALLBACK_C

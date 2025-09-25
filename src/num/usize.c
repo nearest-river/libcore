@@ -2,7 +2,7 @@
 #include "../types.h"
 #include "usize.h"
 #include "../intrinsics.h"
-#include <bits/floatn.h>
+
 
 
 /*
@@ -52,6 +52,98 @@ impl usize {
 }
 */
 
+/**
+
+        pub const unsafe fn unchecked_add(self, rhs: Self) -> Self {
+            assert_unsafe_precondition!(
+                check_language_ub,
+                concat!(stringify!($SelfT), "::unchecked_add cannot overflow"),
+                (
+                    lhs: $SelfT = self,
+                    rhs: $SelfT = rhs,
+                ) => !lhs.overflowing_add(rhs).1,
+            );
+
+            // SAFETY: this is guaranteed to be safe by the caller.
+            unsafe {
+                intrinsics::unchecked_add(self, rhs)
+            }
+        }
+*/
+inline_always
+unsafe usize usize_unchecked_add(const usize self,const usize other) {
+  assert(!intrinsics_overflowing_add(self,other).overflow && "usize_unchecked_add cannot overflow");
+  return intrinsics_unchecked_add(self,other);
+}
+
+inline_always
+unsafe usize usize_unchecked_sub(const usize self,const usize other) {
+  assert(!intrinsics_overflowing_sub(self,other).overflow && "usize_unchecked_sub cannot overflow");
+  return intrinsics_unchecked_sub(self,other);
+}
+
+inline_always
+unsafe usize usize_unchecked_mul(const usize self,const usize other) {
+  assert(intrinsics_overflowing_mul(self,other).overflow && "usize_unchecked_mul cannot overflow");
+  return intrinsics_unchecked_mul(self,other);
+}
+
+inline_always
+unsafe usize usize_unchecked_exact_div(const usize self,const usize other) {
+  assert(other!=0 && "division by 0");
+  return intrinsics_unchecked_exact_div(self,other);
+}
+
+inline_always
+unsafe usize usize_unchecked_disjoint_bitor(const usize self,const usize other) {
+  assert((self&other)==0);
+  return intrinsics_unchecked_disjoint_bitor(self,other);
+}
+
+inline_always
+unsafe usize usize_unchecked_shr(const usize self,const u32 rhs) {
+  assert(rhs<USIZE_BITS);
+  return intrinsics_unchecked_shr(self,rhs);
+}
+
+inline_always
+unsafe usize usize_unchecked_shl(const usize self,const u32 rhs) {
+  assert(rhs<USIZE_BITS);
+  return intrinsics_unchecked_shl(self,rhs);
+}
+
+inline_always
+usize usize_unbounded_shr(const usize self,const u32 rhs) {
+  return rhs<USIZE_BITS?intrinsics_unchecked_shr(self,rhs):0;
+}
+
+inline_always
+usize usize_unbounded_shl(const usize self,const u32 rhs) {
+  return rhs<USIZE_BITS?intrinsics_unchecked_shl(self,rhs):0;
+}
+
+
+
+
+inline_always
+usize usize_wrapping_add(const usize self,const usize rhs) {
+  return 0;
+}
+
+
+
+
+inline_always
+usize usize_wrapping_shr(const usize self,const u32 rhs) {
+  // SAFETY: the masking by the bitsize of the type
+  // ensures that we do not shift out of bounds.
+  return unsafe usize_unchecked_shr(self,rhs&(USIZE_BITS-1));
+}
+
+
+
+
+
 
 
 
@@ -67,31 +159,42 @@ u32 usize_count_zeros(const usize self) {
   return usize_count_ones(~self);
 }
 
-
 inline_always
 u32 usize_leading_zeros(const usize self) {
   return intrinsics_ctlz((u64)self);
 }
 
-/*
+inline_always
 u32 usize_trailing_zeros(const usize self) {
-return intrinsics_cttz(self);
+  return intrinsics_cttz(self);
 }
+
+inline_always
 u32 usize_leading_ones(const usize self) {
-  return leading_zeros((!self));
+  return usize_leading_zeros(~self);
 }
+
+inline_always
 u32 usize_trailing_ones(const usize self) {
-trailing_zeros((!self))
+  return usize_trailing_zeros(~self);
 }
+
+inline_always
 u32 usize_bit_width(const usize self) {
-USIZE_BITS - leading_zeros(self)
+  return USIZE_BITS-usize_leading_zeros(self);
 }
+
+inline_always
 usize usize_isolate_highest_one(const usize self) {
-self & (wrapping_shr((((usize)1) << (BITS - 1)), leading_zeros(self)))
+  return self & (1 << usize_wrapping_shr(USIZE_BITS-1,usize_leading_zeros(self)));
 }
+
+inline_always
 usize usize_isolate_lowest_one(const usize self) {
-self & wrapping_neg(self)
+  return self & usize_wrapping_neg(self);
 }
+
+/**
 isize usize_cast_signed(const usize self) {
 (isize)self
 }

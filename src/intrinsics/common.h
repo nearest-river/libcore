@@ -2,24 +2,29 @@
 #define LIBCORE_INTRINSICS_COMMON_H
 
 #include "../num.h"
+#include "common/int_wrappers.h"
 
 
-u32 intrinsics_u128_popct(const u128 x);
-u32 intrinsics_i128_popct(const i128 x);
-
-
-u32 intrinsics_u128_ctlz(const u128 x);
-u32 intrinsics_i128_ctlz(const i128 x);
-
-
-u32 intrinsics_u128_cttz(const u128 x);
-u32 intrinsics_i128_cttz(const i128 x);
 
 
 #define intrinsics_transmute(x,ty) ({ \
   typeof(x) _y=x; \
   *((ty*)&_y); \
 })
+
+
+
+/// ub if (x & y) != 0
+#define intrinsics_unchecked_disjoint_bitor(x, y) ((x) | (y))
+#define intrinsics_unchecked_add(x, y) ((x) + (y))
+#define intrinsics_unchecked_sub(x, y) ((x) - (y))
+#define intrinsics_unchecked_mul(x, y) ((x) * (y))
+#define intrinsics_unchecked_shl(x, y) ((x) << (y))
+#define intrinsics_unchecked_shr(x, y) ((x) >> (y))
+/// ub if y==0, or x%y!=0, or x==min&&y==-1 (signed)
+#define intrinsics_unchecked_exact_div(x, y) ((x) / (y))
+
+
 
 
 

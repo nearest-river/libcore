@@ -78,6 +78,15 @@ typedef enum: usize {
 
 #define alignof(ty) _Alignof(ty)
 
+#if TARGET_PTR_WIDTH==16
+#define ALIGNMENT_MAX _Align1Shl15
+#elif TARGET_PTR_WIDTH==32
+#define ALIGNMENT_MAX _Align1Shl31
+#elif TARGET_PTR_WIDTH==64
+#define ALIGNMENT_MAX _Align1Shl63
+#endif
+
+
 
 
 

@@ -24,15 +24,19 @@ macro_scripts_uint: $(MACRO_SCRIPTS)/*
 generate: macro_scripts_uint
 	echo "generated macros..."
 
+prelude: generate
 
-intrinsics.o: $(SRC)/intrinsics.h $(SRC)/intrinsics.c $(SRC)/intrinsics/*
+intrinsics.o: prelude $(SRC)/intrinsics.h $(SRC)/intrinsics.c $(SRC)/intrinsics/*
 	$(CC) $(CFLAGS) -c $(SRC)/intrinsics.c
 
-num.o: generate intrinsics.o $(SRC)/types.h $(SRC)/num/*
+num.o: prelude intrinsics.o $(SRC)/types.h $(SRC)/num/*
 	$(CC) $(CFLAGS) -c $(SRC)/num/*.c
 
-alloc.o: generate $(SRC)/alloc.h $(SRC)/alloc/*.h
+alloc.o: prelude $(SRC)/alloc.h $(SRC)/alloc/*.h
 	echo "empty"
+
+ptr.o: prelude $(SRC)/ptr.c $(SRC)/ptr.h
+	$(CC) $(CFLAGS) -c $(SRC)/ptr.c
 
 build: intrinsics.o num.o alloc.o
 	mkdir -p $(TARGET)

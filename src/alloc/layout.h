@@ -34,11 +34,34 @@ typedef struct {
   Alignment align;
 } Layout;
 
+typedef union {
+  Layout layout;
+  usize ok;
+} LayoutResult;
+
+typedef struct {
+  usize offset;
+  Layout layout;
+} LayoutOffset;
+
+typedef union {
+  LayoutOffset layout_offset;
+  usize ok;
+} LayoutOffsetResult;
+
+
+
+
+
 
 
 #define layout_of(ty) (Layout){ .size=sizeof(ty), .align=alignof(ty) }
 
 
+LayoutResult layout_from_size_alignment(usize size,usize align);
+void* layout_dangling(const Layout self);
+LayoutOffsetResult layout_extend(const Layout self,const Layout next);
+Layout layout_pad_to_align(const Layout self);
 
 
 

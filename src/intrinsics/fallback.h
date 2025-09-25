@@ -3,5 +3,7 @@
 #include "common.h"
 
 
+#error "unimplemented"
+
 
 #endif // LIBCORE_INTRINSICS_FALLBACK_H

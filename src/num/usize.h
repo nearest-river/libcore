@@ -16,7 +16,8 @@ u32 usize_count_ones(const usize self);
 u32 usize_count_zeros(const usize self);
 u32 usize_leading_zeros(const usize self);
 
-
+bool usize_is_power_of_two(usize x);
+usize usize_next_power_of_two(usize x);
 
 
 
@@ -40,9 +41,11 @@ usize usize_wrapping_sub(usize self,usize rhs);
 usize usize_wrapping_mul(usize self,usize rhs);
 usize usize_wrapping_div(usize self,usize rhs);
 usize usize_wrapping_rem(usize self,usize rhs);
-usize usize_wrapping_neg(usize self);
-usize usize_wrapping_shl(usize self,u32 rhs);
-usize usize_wrapping_shr(usize self,u32 rhs);
+usize usize_wrapping_neg(const usize self);
+usize usize_wrapping_shl(const usize self,const u32 rhs);
+usize usize_wrapping_shr(const usize self,const u32 rhs);
+
+
 
 /*
 usize_checked_add(usize self,usize rhs) -> Option<usize>
