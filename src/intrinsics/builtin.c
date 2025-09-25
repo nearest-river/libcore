@@ -1,0 +1,6 @@
+#ifndef LIBCORE_INTRINSICS_BUILTIN_C
+#define LIBCORE_INTRINSICS_BUILTIN_C
+#include "builtin/int_ops.c"
+
+
+#endif // LIBCORE_INTRINSICS_BUILTIN_C
